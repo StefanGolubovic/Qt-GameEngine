@@ -5,8 +5,10 @@
 #include <QTreeWidgetItem>
 #include <QtCore>
 #include <QtGui>
+#include <QTimer>
 #include "square.h"
 #include "circle.h"
+#include "triangle.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -28,6 +30,8 @@ private:
     QGraphicsScene *scene;
     QGraphicsItem *square;
     QGraphicsItem *circle;
+    QGraphicsItem *triangle;
+    QTimer *timer;
 
 };
 #endif // MAINWINDOW_H

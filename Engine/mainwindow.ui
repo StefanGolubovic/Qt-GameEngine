@@ -54,6 +54,21 @@
         </property>
        </item>
       </item>
+      <item>
+       <property name="text">
+        <string>Add background</string>
+       </property>
+       <item>
+        <property name="text">
+         <string>Choose from default</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Choose your background</string>
+        </property>
+       </item>
+      </item>
      </widget>
     </item>
     <item>

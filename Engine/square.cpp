@@ -25,7 +25,6 @@ void Square::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QW
 
     painter->fillRect(rec, brush);
     painter->drawRect(rec);
-
 }
 
 void Square::mousePressEvent(QGraphicsSceneMouseEvent *event)

@@ -1,30 +1,29 @@
-#ifndef CIRCLE_H
-#define CIRCLE_H
+#ifndef TRIANGLE_H
+#define TRIANGLE_H
 
 #include <QGraphicsItem>
 #include <QPainter>
-#include <QtMath>
 #include <QGraphicsScene>
+#include <QPoint>
 
-class Circle : public QGraphicsItem
+
+class Triangle : public QGraphicsItem
 {
 public:
-    Circle();
+    Triangle();
 
     QRectF boundingRect() const override;
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = nullptr) override;
-
     void mousePressEvent(QGraphicsSceneMouseEvent *event) override;
     void mouseReleaseEvent(QGraphicsSceneMouseEvent *event) override;
 
-    bool pressed;
-
 private:
-    double pos_x = 100;
-    double pos_y = 100;
-    double size = 100;
-
+    QList<QPoint> points;
+    QPoint point1;
+    QPoint point2;
+    QPoint point3;
+    bool pressed;
 
 };
 
-#endif // CIRCLE_H
+#endif // TRIANGLE_H

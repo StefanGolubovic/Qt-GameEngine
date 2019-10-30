@@ -19,12 +19,14 @@ SOURCES += \
     circle.cpp \
     main.cpp \
     mainwindow.cpp \
-    square.cpp
+    square.cpp \
+    triangle.cpp
 
 HEADERS += \
     circle.h \
     mainwindow.h \
-    square.h
+    square.h \
+    triangle.h
 
 FORMS += \
     mainwindow.ui
@@ -33,3 +35,6 @@ FORMS += \
 qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
+
+RESOURCES += \
+    background-images.qrc
