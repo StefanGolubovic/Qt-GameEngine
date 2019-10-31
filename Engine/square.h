@@ -3,6 +3,7 @@
 
 #include <QGraphicsItem>
 #include <QPainter>
+#include <QGraphicsScene>
 
 class Square : public QGraphicsItem
 {
@@ -14,6 +15,9 @@ public:
     bool pressed;
 
 protected:
+    qreal angle;
+    qreal speed;
+    void advance(int phase) override;
     void mousePressEvent(QGraphicsSceneMouseEvent *event) override;
     void mouseReleaseEvent(QGraphicsSceneMouseEvent *event) override;
 };
