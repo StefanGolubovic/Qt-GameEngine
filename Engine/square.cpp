@@ -4,6 +4,7 @@
 #include <QGroupBox>
 #include <QString>
 #include <QMessageBox>
+#include <QTransform>
 
 Square::Square(QGroupBox* gbox, QList<QLineEdit*> *gbLineEdits, QSpinBox *spinAngle)
 {
@@ -15,6 +16,8 @@ Square::Square(QGroupBox* gbox, QList<QLineEdit*> *gbLineEdits, QSpinBox *spinAn
     this->gbLineEdits = gbLineEdits;
     this->spinAngle = spinAngle;
     scale = 1;
+    scaleX = 1;
+    scaleY = 1;
     this->setScale(scale);
 
     int startX = 0;
@@ -64,7 +67,9 @@ void Square::setTextGroupBox(QList<QLineEdit *> *gbLineEdits, QSpinBox *spinAngl
     line = gbLineEdits->at(1);
     line->setPlaceholderText(QString::number(location.ry()));
     line = gbLineEdits->at(2);
-    line->setPlaceholderText(QString::number(scale));
+    line->setPlaceholderText(QString::number(scaleX));
+    line = gbLineEdits->at(3);
+    line->setPlaceholderText(QString::number(scaleY));
 }
 
 void Square::keyPressEvent(QKeyEvent *event)
@@ -72,8 +77,9 @@ void Square::keyPressEvent(QKeyEvent *event)
     qDebug() << "Key is pressed";
     QLineEdit *lineX = gbLineEdits->at(0);
     QLineEdit *lineY = gbLineEdits->at(1);
-    QLineEdit *lineScale = gbLineEdits->at(2);
-    if (lineX->text() == "" || lineY->text() == "" || lineScale->text() == ""){
+    QLineEdit *lineScaleX = gbLineEdits->at(2);
+    QLineEdit *lineScaleY = gbLineEdits->at(3);
+    if (lineX->text() == "" || lineY->text() == "" || lineScaleX->text() == "" || lineScaleY->text() == ""){
         QMessageBox msgBox;
         msgBox.setWindowTitle("Warning");
         msgBox.setText("Please fill all fields !");
@@ -83,11 +89,15 @@ void Square::keyPressEvent(QKeyEvent *event)
     this->setPos(lineX->text().toInt(), lineY->text().toInt());
     lineX->clear();
     lineY->clear();
-    scale = qreal(lineScale->text().toFloat());
-    this->setScale(scale);
-    lineScale->clear();
     QSpinBox *spinBox = spinAngle;
     this->setRotation(spinBox->text().toInt());
+//    scale = qreal(lineScale->text().toFloat());
+    QTransform transform = this->transform().scale(qreal(lineScaleX->text().toFloat()),qreal(lineScaleY->text().toFloat()));
+    this->setTransform(transform);
+    this->update();
+//    this->setScale(scale);
+    lineScaleX->clear();
+    lineScaleY->clear();
 }
 
 
@@ -101,7 +111,6 @@ void Square::advance(int phase)
 void Square::mousePressEvent(QGraphicsSceneMouseEvent *event)
 {
     gBox->show();
-    qDebug() << "Focused" << this->pos();
     pressed = true;
     update();
     QGraphicsItem::mousePressEvent(event);

@@ -23,6 +23,7 @@ public:
 
 protected:
     qreal scale;
+    qreal scaleX, scaleY;
     qreal angle;
     qreal speed;
     void advance(int phase) override;
