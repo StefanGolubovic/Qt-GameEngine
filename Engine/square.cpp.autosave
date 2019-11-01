@@ -100,8 +100,7 @@ void Square::advance(int phase)
 
 void Square::mousePressEvent(QGraphicsSceneMouseEvent *event)
 {
-    gBox->show();
-    qDebug() << "Focused" << this->pos();
+    gBox->show();   
     pressed = true;
     update();
     QGraphicsItem::mousePressEvent(event);
