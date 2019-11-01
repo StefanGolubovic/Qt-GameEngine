@@ -2,7 +2,6 @@
 #include "ui_mainwindow.h"
 
 #include <QString>
-#include <QPen>
 #include <QFileDialog>
 
 MainWindow::MainWindow(QWidget *parent)
@@ -10,29 +9,15 @@ MainWindow::MainWindow(QWidget *parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+    ui->groupBox->hide();
 
     scene = new QGraphicsScene(this);
     ui->mainScene->setScene(scene);
     ui->mainScene->setRenderHint(QPainter::Antialiasing);
-//    scene->setSceneRect(-200, -200, 300, 300);
-
-//    QPen pen = QPen(Qt::red);
-//    QLineF topLine(scene->sceneRect().topLeft(), scene->sceneRect().topRight());
-//    QLineF leftLine(scene->sceneRect().topLeft(), scene->sceneRect().bottomLeft());
-//    QLineF rightLine(scene->sceneRect().topRight(), scene->sceneRect().bottomRight());
-//    QLineF bottomLine(scene->sceneRect().bottomLeft(), scene->sceneRect().bottomRight());
-
-//    scene->addLine(topLine, pen);
-//    scene->addLine(leftLine, pen);
-//    scene->addLine(rightLine, pen);
-//    scene->addLine(bottomLine, pen);
-
 
     timer = new QTimer(this);
     connect(timer, SIGNAL(timeout()), scene, SLOT(advance()));
     timer->start(100);
-
-
 }
 
 MainWindow::~MainWindow()
@@ -40,11 +25,16 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-
 void MainWindow::on_treeWidget_itemClicked(QTreeWidgetItem *item, int column)
 {
     if(item->text(0) == "Square"){
-        square = new Square();
+
+        QList<QLineEdit*> *gbLineEdits = new QList<QLineEdit*>;
+        gbLineEdits->append(ui->lineX);
+        gbLineEdits->append(ui->lineY);
+        gbLineEdits->append(ui->lineSize);
+        QSpinBox *spinAngle = ui->spinBoxAngle;
+        square = new Square(ui->groupBox,gbLineEdits, spinAngle);
         scene->addItem(square);
     }
     if(item->text(0) == "Circle"){
@@ -57,10 +47,10 @@ void MainWindow::on_treeWidget_itemClicked(QTreeWidgetItem *item, int column)
     }
 
     if(item->text(0) == "Choose from default"){
-
         QString fileName = QFileDialog::getOpenFileName(this, tr("Choose File"),"../Qt-GameEngine/backgrounds/", tr("Images (*.png *.jpg)"));
         QPixmap pix(fileName);
         qDebug() << pix ;
         ui->mainScene->setBackgroundBrush(pix.scaled(ui->mainScene->width(),ui->mainScene->height(),  Qt::KeepAspectRatio));
     }
+
 }

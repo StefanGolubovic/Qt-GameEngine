@@ -4,17 +4,25 @@
 #include <QGraphicsItem>
 #include <QPainter>
 #include <QGraphicsScene>
+#include <QGroupBox>
+#include <QLineEdit>
+#include <QSpinBox>
 
 class Square : public QGraphicsItem
 {
 public:
-    Square();
+    Square(QGroupBox* gbox, QList<QLineEdit*> *gbLineEdits, QSpinBox *spinAngle);
 
     QRectF boundingRect() const override;
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = nullptr) override;
     bool pressed;
+    QGroupBox* gBox;
+    QList<QLineEdit*> *gbLineEdits;
+    QSpinBox *spinAngle;
+    void setTextGroupBox(QList<QLineEdit*> *gbLineEdits, QSpinBox *spinAngle, QPointF location);
 
 protected:
+    qreal scale;
     qreal angle;
     qreal speed;
     void advance(int phase) override;

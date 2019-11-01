@@ -3,9 +3,12 @@
 
 #include <QMainWindow>
 #include <QTreeWidgetItem>
+#include <QGroupBox>
 #include <QtCore>
 #include <QtGui>
 #include <QTimer>
+#include <QVBoxLayout>
+
 #include "square.h"
 #include "circle.h"
 #include "triangle.h"

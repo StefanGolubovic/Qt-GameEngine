@@ -18,13 +18,6 @@ public:
     void mouseReleaseEvent(QGraphicsSceneMouseEvent *event) override;
 
     bool pressed;
-
-private:
-    double pos_x = 100;
-    double pos_y = 100;
-    double size = 100;
-
-
 };
 
 #endif // CIRCLE_H

@@ -14,8 +14,6 @@ Square::Square(QGroupBox* gbox, QList<QLineEdit*> *gbLineEdits, QSpinBox *spinAn
     this->gbLineEdits = gbLineEdits;
     this->spinAngle = spinAngle;
     scale = 1;
-//    QLineEdit* line = gbLineEdits->at(0);
-//    line->setText("Some text");
 
     int startX = 0;
     int startY = 0;
