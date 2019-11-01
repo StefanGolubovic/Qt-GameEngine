@@ -6,7 +6,7 @@
 
 Square::Square(QGroupBox* gbox, QList<QLineEdit*> *gbLineEdits, QSpinBox *spinAngle)
 {
-    angle = (qrand() % 360 );
+    angle = 0;
     setRotation(angle);
     speed = 5;
     pressed = false;
@@ -14,14 +14,14 @@ Square::Square(QGroupBox* gbox, QList<QLineEdit*> *gbLineEdits, QSpinBox *spinAn
     this->gbLineEdits = gbLineEdits;
     this->spinAngle = spinAngle;
     scale = 1;
-//    QLineEdit* line = gbLineEdits->at(0);
-//    line->setText("Some text");
+    this->setScale(scale);
 
     int startX = 0;
     int startY = 0;
 
     setPos(startX, startY);
     setFlag(ItemIsMovable);
+    setFlag(ItemIsFocusable);
 }
 
 QRectF Square::boundingRect() const
@@ -45,11 +45,11 @@ void Square::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QW
 
 
     if (scene()->collidingItems(this).isEmpty()) {
-        qDebug() << "No collision!";
+//        qDebug() << "No collision!";
     }
     else {
         //collision
-        qDebug() << "Collision!";
+//        qDebug() << "Collision!";
     }
 
     painter->fillRect(rec, brush);
@@ -59,30 +59,36 @@ void Square::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QW
 void Square::setTextGroupBox(QList<QLineEdit *> *gbLineEdits, QSpinBox *spinAngle, QPointF location)
 {
     QLineEdit *line = gbLineEdits->at(0);
-    line->setText(QString::number(location.rx()));
+    line->setPlaceholderText(QString::number(location.rx()));
     line = gbLineEdits->at(1);
-    line->setText(QString::number(location.ry()));
+    line->setPlaceholderText(QString::number(location.ry()));
     line = gbLineEdits->at(2);
-    line->setText(QString::number(scale));
-
+    line->setPlaceholderText(QString::number(scale));
 }
+
+void Square::keyPressEvent(QKeyEvent *event)
+{
+    qDebug() << "Key is pressed";
+    QLineEdit *lineX = gbLineEdits->at(0);
+    QLineEdit *lineY = gbLineEdits->at(1);
+    QLineEdit *lineScale = gbLineEdits->at(2);
+    this->setPos(lineX->text().toInt(), lineY->text().toInt());
+    scale = lineScale->text().toFloat();
+    this->setScale(scale);
+}
+
 
 void Square::advance(int phase)
 {
     if(!phase){
         return;
     }
-
-
-
-//    setPos(mapToParent(0, (-speed)));
-
-
 }
 
 void Square::mousePressEvent(QGraphicsSceneMouseEvent *event)
 {
     gBox->show();
+    qDebug() << "Focused" << this->pos();
     pressed = true;
     update();
     QGraphicsItem::mousePressEvent(event);

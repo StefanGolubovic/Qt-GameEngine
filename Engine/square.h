@@ -28,6 +28,7 @@ protected:
     void advance(int phase) override;
     void mousePressEvent(QGraphicsSceneMouseEvent *event) override;
     void mouseReleaseEvent(QGraphicsSceneMouseEvent *event) override;
+    void keyPressEvent(QKeyEvent *event) override;
 };
 
 #endif // SQUARE_H

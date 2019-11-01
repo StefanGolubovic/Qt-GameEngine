@@ -10,6 +10,7 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
     ui->groupBox->hide();
+    ui->mainScene->installEventFilter(this);
 
     scene = new QGraphicsScene(this);
     ui->mainScene->setScene(scene);
@@ -35,6 +36,7 @@ void MainWindow::on_treeWidget_itemClicked(QTreeWidgetItem *item, int column)
         gbLineEdits->append(ui->lineSize);
         QSpinBox *spinAngle = ui->spinBoxAngle;
         square = new Square(ui->groupBox,gbLineEdits, spinAngle);
+        square->setFocus();
         scene->addItem(square);
     }
     if(item->text(0) == "Circle"){

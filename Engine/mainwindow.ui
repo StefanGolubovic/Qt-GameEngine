@@ -182,6 +182,13 @@
            </item>
           </layout>
          </item>
+         <item>
+          <widget class="QPushButton" name="applyChangesBtn">
+           <property name="text">
+            <string>Apply Changes</string>
+           </property>
+          </widget>
+         </item>
         </layout>
        </widget>
       </item>
