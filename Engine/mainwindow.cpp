@@ -33,8 +33,8 @@ void MainWindow::on_treeWidget_itemClicked(QTreeWidgetItem *item, int column)
         QList<QLineEdit*> *gbLineEdits = new QList<QLineEdit*>;
         gbLineEdits->append(ui->lineX);
         gbLineEdits->append(ui->lineY);
-        gbLineEdits->append(ui->lineSizeX);
-        gbLineEdits->append(ui->lineSizeY);
+        gbLineEdits->append(ui->lineScaleX);
+        gbLineEdits->append(ui->lineScaleY);
         QSpinBox *spinAngle = ui->spinBoxAngle;
         square = new Square(ui->groupBox,gbLineEdits, spinAngle);
         square->setFocus();

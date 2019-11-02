@@ -22,7 +22,6 @@ public:
     void setTextGroupBox(QList<QLineEdit*> *gbLineEdits, QSpinBox *spinAngle, QPointF location);
 
 protected:
-    qreal scale;
     qreal scaleX, scaleY;
     qreal angle;
     qreal speed;

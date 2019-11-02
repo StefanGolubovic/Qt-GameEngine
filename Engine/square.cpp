@@ -9,21 +9,18 @@
 Square::Square(QGroupBox* gbox, QList<QLineEdit*> *gbLineEdits, QSpinBox *spinAngle)
 {
     angle = 0;
-    setRotation(angle);
+//    setRotation(angle);
     speed = 5;
     pressed = false;
     this->gBox = gbox;
     this->gbLineEdits = gbLineEdits;
     this->spinAngle = spinAngle;
-    scale = 1;
     scaleX = 1;
     scaleY = 1;
-    this->setScale(scale);
 
     int startX = 0;
     int startY = 0;
 
-    setPos(startX, startY);
     setFlag(ItemIsMovable);
     setFlag(ItemIsFocusable);
 }
@@ -67,6 +64,7 @@ void Square::setTextGroupBox(QList<QLineEdit *> *gbLineEdits, QSpinBox *spinAngl
     line = gbLineEdits->at(1);
     line->setPlaceholderText(QString::number(location.ry()));
     line = gbLineEdits->at(2);
+//    qDebug() << line->text().toFloat();
     line->setPlaceholderText(QString::number(scaleX));
     line = gbLineEdits->at(3);
     line->setPlaceholderText(QString::number(scaleY));
@@ -86,16 +84,27 @@ void Square::keyPressEvent(QKeyEvent *event)
         msgBox.exec();
         return;
     }
-    this->setPos(lineX->text().toInt(), lineY->text().toInt());
+    scaleX = qreal(lineScaleX->text().toFloat());
+    scaleY = qreal(lineScaleY->text().toFloat());
+
+    QSpinBox *spinBox = spinAngle;
+    QPointF location = this->pos();
+
+    QTransform t;
+    t.translate(location.rx(), location.ry());
+    t.rotate(qreal(spinBox->text().toFloat()));
+    t.scale(scaleX, scaleY);
+    t.translate(-location.rx(), -location.ry());
+    this->setTransform(t);
+
+    t.translate(lineX->text().toInt(), lineY->text().toInt());
+    this->setPos(qreal(lineX->text().toInt()), qreal(lineY->text().toInt())) ;
+    this->setTransform(t);
+    this->update();
+
     lineX->clear();
     lineY->clear();
-    QSpinBox *spinBox = spinAngle;
-    this->setRotation(spinBox->text().toInt());
-//    scale = qreal(lineScale->text().toFloat());
-    QTransform transform = this->transform().scale(qreal(lineScaleX->text().toFloat()),qreal(lineScaleY->text().toFloat()));
-    this->setTransform(transform);
-    this->update();
-//    this->setScale(scale);
+
     lineScaleX->clear();
     lineScaleY->clear();
 }

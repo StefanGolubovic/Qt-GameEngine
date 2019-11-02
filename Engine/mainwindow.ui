@@ -171,7 +171,7 @@
             </widget>
            </item>
            <item>
-            <widget class="QLineEdit" name="lineSizeX">
+            <widget class="QLineEdit" name="lineScaleX">
              <property name="sizePolicy">
               <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
                <horstretch>0</horstretch>
@@ -198,7 +198,7 @@
             </widget>
            </item>
            <item>
-            <widget class="QLineEdit" name="lineSizeY">
+            <widget class="QLineEdit" name="lineScaleY">
              <property name="sizePolicy">
               <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
                <horstretch>0</horstretch>
@@ -275,13 +275,13 @@
   <widget class="QStatusBar" name="statusbar"/>
  </widget>
  <tabstops>
-  <tabstop>lineSizeX</tabstop>
+  <tabstop>lineScaleX</tabstop>
   <tabstop>mainScene</tabstop>
   <tabstop>lineX</tabstop>
   <tabstop>lineY</tabstop>
   <tabstop>treeWidget</tabstop>
   <tabstop>spinBoxAngle</tabstop>
-  <tabstop>lineSizeY</tabstop>
+  <tabstop>lineScaleY</tabstop>
  </tabstops>
  <resources/>
  <connections/>

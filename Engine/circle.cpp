@@ -23,10 +23,6 @@ void Circle::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QW
         brush.setColor(Qt::green);
     }
 
-    if (!scene()->items().isEmpty()){
-        qDebug() << scene()->items().at(0)->pos();
-    }
-
     painter->drawEllipse(rec);
 }
 
