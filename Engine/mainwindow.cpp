@@ -12,8 +12,15 @@ MainWindow::MainWindow(QWidget *parent)
     ui->groupBox->hide();
     ui->mainScene->installEventFilter(this);
 
-    scene = new QGraphicsScene(this);
+    scene = new QGraphicsScene(ui->mainScene);
+    QGraphicsView *view = new QGraphicsView(scene);
+
+//    view->show();
+
+    view->setFixedSize(800, 600);
+
     ui->mainScene->setScene(scene);
+    ui->mainScene->setSceneRect(0, 0, 5000, 500);
     ui->mainScene->setRenderHint(QPainter::Antialiasing);
 
     timer = new QTimer(this);

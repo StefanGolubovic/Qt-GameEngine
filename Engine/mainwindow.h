@@ -3,6 +3,7 @@
 
 #include <QMainWindow>
 #include <QTreeWidgetItem>
+#include <QGraphicsView>
 #include <QGroupBox>
 #include <QtCore>
 #include <QtGui>

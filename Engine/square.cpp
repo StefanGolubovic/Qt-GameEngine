@@ -9,7 +9,6 @@
 Square::Square(QGroupBox* gbox, QList<QLineEdit*> *gbLineEdits, QSpinBox *spinAngle)
 {
     angle = 0;
-//    setRotation(angle);
     speed = 5;
     pressed = false;
     this->gBox = gbox;
@@ -64,7 +63,6 @@ void Square::setTextGroupBox(QList<QLineEdit *> *gbLineEdits, QSpinBox *spinAngl
     line = gbLineEdits->at(1);
     line->setPlaceholderText(QString::number(location.ry()));
     line = gbLineEdits->at(2);
-//    qDebug() << line->text().toFloat();
     line->setPlaceholderText(QString::number(scaleX));
     line = gbLineEdits->at(3);
     line->setPlaceholderText(QString::number(scaleY));
@@ -88,19 +86,19 @@ void Square::keyPressEvent(QKeyEvent *event)
     scaleY = qreal(lineScaleY->text().toFloat());
 
     QSpinBox *spinBox = spinAngle;
+
+    this->setPos(qreal(lineX->text().toInt()), qreal(lineY->text().toInt()));
+    this->update();
     QPointF location = this->pos();
 
+    qDebug() << (location);
     QTransform t;
     t.translate(location.rx(), location.ry());
     t.rotate(qreal(spinBox->text().toFloat()));
     t.scale(scaleX, scaleY);
     t.translate(-location.rx(), -location.ry());
     this->setTransform(t);
-
-    t.translate(lineX->text().toInt(), lineY->text().toInt());
-    this->setPos(qreal(lineX->text().toInt()), qreal(lineY->text().toInt())) ;
-    this->setTransform(t);
-    this->update();
+    t.reset();
 
     lineX->clear();
     lineY->clear();

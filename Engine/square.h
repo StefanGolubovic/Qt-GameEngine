@@ -1,6 +1,5 @@
 #ifndef SQUARE_H
 #define SQUARE_H
-
 #include <QGraphicsItem>
 #include <QPainter>
 #include <QGraphicsScene>
