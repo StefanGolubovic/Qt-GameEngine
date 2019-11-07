@@ -63,7 +63,7 @@ void MainWindow::on_treeWidget_itemClicked(QTreeWidgetItem *item, int column)
         gbLineEdits->append(ui->figureX);
         gbLineEdits->append(ui->figureY);
 
-        triangle = new Triangle(ui->groupBoxTriangle, ui->groupBoxSquare, gbLineEdits);
+        triangle = new Triangle(ui->groupBoxTriangle, ui->groupBoxSquare, gbLineEdits, ui->spinBoxTriangle);
         triangle->setFocus();
         scene->addItem(triangle);
     }

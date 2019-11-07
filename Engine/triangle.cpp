@@ -2,13 +2,14 @@
 #include <QDebug>
 #include <QMessageBox>
 
-Triangle::Triangle(QGroupBox *gBoxTriangle,QGroupBox *gBoxSquare, QList<QLineEdit*> *gbLineEdits)
+Triangle::Triangle(QGroupBox *gBoxTriangle,QGroupBox *gBoxSquare, QList<QLineEdit*> *gbLineEdits, QSpinBox *spinBoxTriangle)
 {
     pressed = false;
 
     this->gBoxTriangle = gBoxTriangle;
     this->gBoxSquare = gBoxSquare;
     this->gbLineEdits = gbLineEdits;
+    this->spinBoxTriangle = spinBoxTriangle;
     point1.rx() = 10;
     point1.ry() = 10;
     point2.rx() = 10;
@@ -106,6 +107,13 @@ void Triangle::keyPressEvent(QKeyEvent *event)
     point2.setY(p2lineY->text().toInt());
     point3.setX(p3lineX->text().toInt());
     point3.setY(p3lineY->text().toInt());
+
+    QTransform t;
+    t.translate(qreal(figureX->text().toInt()), qreal(figureY->text().toInt()));
+    t.rotate(qreal(spinBoxTriangle->text().toFloat()));
+    t.translate(-qreal(figureX->text().toInt()), -qreal(figureY->text().toInt()));
+    this->setTransform(t);
+    t.reset();
 
     p1lineX->clear();
     p1lineY->clear();

@@ -42,7 +42,7 @@ void Square::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QW
 
 
     if (scene()->collidingItems(this).isEmpty()) {
-        qDebug() << "No collision!";
+//        qDebug() << "No collision!";
     }
     else {
         //collision
