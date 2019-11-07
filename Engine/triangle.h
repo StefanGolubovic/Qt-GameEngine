@@ -13,7 +13,7 @@
 class Triangle : public QGraphicsItem
 {
 public:
-    Triangle(QGroupBox *gBoxTriangle,QGroupBox *gBoxSquare, QList<QLineEdit*> *gbLineEdits, QSpinBox *spinBoxTriangle);
+    Triangle(QGroupBox *gBoxTriangle,QGroupBox *gBoxSquare, QGroupBox* gBoxElipse, QList<QLineEdit*> *gbLineEdits, QSpinBox *spinBoxTriangle);
 
     QRectF boundingRect() const override;
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = nullptr) override;
@@ -23,6 +23,7 @@ public:
 
     QGroupBox *gBoxTriangle;
     QGroupBox *gBoxSquare;
+    QGroupBox *gBoxElipse;
     QList<QLineEdit*> *gbLineEdits;
     QSpinBox *spinBoxTriangle;
 

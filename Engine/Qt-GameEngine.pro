@@ -16,14 +16,14 @@ DEFINES += QT_DEPRECATED_WARNINGS
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
-    circle.cpp \
+    elipse.cpp \
     main.cpp \
     mainwindow.cpp \
     square.cpp \
     triangle.cpp
 
 HEADERS += \
-    circle.h \
+    elipse.h \
     mainwindow.h \
     square.h \
     triangle.h

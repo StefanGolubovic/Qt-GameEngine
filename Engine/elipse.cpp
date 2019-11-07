@@ -1,60 +1,63 @@
-#include "square.h"
-#include <QRandomGenerator>
+#include "elipse.h"
 #include <QDebug>
-#include <QGroupBox>
-#include <QString>
-#include <QMessageBox>
-#include <QTransform>
 
-Square::Square(QGroupBox* gbox, QGroupBox* gBoxTriangle, QGroupBox* gBoxElipse, QList<QLineEdit*> *gbLineEdits, QSpinBox *spinAngle)
+Elipse::Elipse(QGroupBox* gBoxElipse, QGroupBox* gBoxTriangle, QGroupBox* gBoxSquare, QList<QLineEdit *> *gbLineEdits, QSpinBox *spinAngle)
 {
-    angle = 0;
-    pressed = false;
-    this->gBoxSquare = gbox;
-    this->gBoxElipse =  gBoxElipse;
+    this->gBoxElipse = gBoxElipse;
     this->gBoxTriangle = gBoxTriangle;
+    this->gBoxSquare = gBoxSquare;
     this->gbLineEdits = gbLineEdits;
     this->spinAngle = spinAngle;
     scaleX = 1;
     scaleY = 1;
+    angle = 0;
 
+    pressed = false;
     setFlag(ItemIsMovable);
     setFlag(ItemIsFocusable);
 }
 
-QRectF Square::boundingRect() const
+QRectF Elipse::boundingRect() const
 {
     return QRectF(10, 10, 100, 100);
 }
 
-void Square::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
+void Elipse::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
     QRectF rec = boundingRect();
     QBrush brush(Qt::blue);
-    if(pressed){
+    if(pressed) {
         brush.setColor(Qt::red);
     }
     else {
         brush.setColor(Qt::green);
     }
-    QPointF location = this->pos();
-
-    setTextGroupBox(gbLineEdits, spinAngle, this->pos());
-
 
     if (scene()->collidingItems(this).isEmpty()) {
-//        qDebug() << "No collision!";
+        qDebug() << "No collision!";
     }
     else {
         //collision
-//        qDebug() << "Collision!";
+        qDebug() << "Collision!";
     }
 
-    painter->fillRect(rec, brush);
-    painter->drawRect(rec);
+    location = this->pos();
+    setTextGroupBox(gbLineEdits, location);
+
+
+
+    painter->setBrush(brush);
+    painter->drawEllipse(rec);
 }
 
-void Square::setTextGroupBox(QList<QLineEdit *> *gbLineEdits, QSpinBox *spinAngle, QPointF location)
+QPainterPath Elipse::shape() const
+{
+    QPainterPath path;
+    path.addEllipse(QPointF(60, 60), 50, 50);
+    return path;
+}
+
+void Elipse::setTextGroupBox(QList<QLineEdit *> *gbLineEdits, QPointF location)
 {
     QLineEdit *line = gbLineEdits->at(0);
     line->setPlaceholderText(QString::number(location.rx()));
@@ -66,7 +69,24 @@ void Square::setTextGroupBox(QList<QLineEdit *> *gbLineEdits, QSpinBox *spinAngl
     line->setPlaceholderText(QString::number(scaleY));
 }
 
-void Square::keyPressEvent(QKeyEvent *event)
+void Elipse::mousePressEvent(QGraphicsSceneMouseEvent *event)
+{
+    gBoxTriangle->hide();
+    gBoxSquare->hide();
+    gBoxElipse->show();
+    pressed = true;
+    update();
+    QGraphicsItem::mousePressEvent(event);
+}
+
+void Elipse::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
+{
+    pressed = false;
+    update();
+    QGraphicsItem::mouseReleaseEvent(event);
+}
+
+void Elipse::keyPressEvent(QKeyEvent *event)
 {
     qDebug() << "Key is pressed";
     QLineEdit *lineX = gbLineEdits->at(0);
@@ -83,7 +103,7 @@ void Square::keyPressEvent(QKeyEvent *event)
     scaleX = qreal(lineScaleX->text().toFloat());
     scaleY = qreal(lineScaleY->text().toFloat());
 
-    QSpinBox *spinBox = spinAngle;
+    angle = spinAngle->text().toInt();
 
     this->setPos(qreal(lineX->text().toInt()), qreal(lineY->text().toInt()));
     this->update();
@@ -92,7 +112,7 @@ void Square::keyPressEvent(QKeyEvent *event)
     qDebug() << (location);
     QTransform t;
     t.translate(location.rx(), location.ry());
-    t.rotate(qreal(spinBox->text().toFloat()));
+    t.rotate(qreal(angle));
     t.scale(scaleX, scaleY);
     t.translate(-location.rx(), -location.ry());
     this->setTransform(t);
@@ -105,27 +125,3 @@ void Square::keyPressEvent(QKeyEvent *event)
     lineScaleY->clear();
 }
 
-
-void Square::advance(int phase)
-{
-    if(!phase){
-        return;
-    }
-}
-
-void Square::mousePressEvent(QGraphicsSceneMouseEvent *event)
-{
-    gBoxTriangle->hide();
-    gBoxElipse->hide();
-    gBoxSquare->show();
-    pressed = true;
-    update();
-    QGraphicsItem::mousePressEvent(event);
-}
-
-void Square::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
-{
-    pressed = false;
-    update();
-    QGraphicsItem::mouseReleaseEvent(event);
-}

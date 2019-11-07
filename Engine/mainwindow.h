@@ -11,7 +11,7 @@
 #include <QVBoxLayout>
 
 #include "square.h"
-#include "circle.h"
+#include "elipse.h"
 #include "triangle.h"
 
 QT_BEGIN_NAMESPACE
@@ -33,7 +33,7 @@ private:
     Ui::MainWindow *ui;
     QGraphicsScene *scene;
     QGraphicsItem *square;
-    QGraphicsItem *circle;
+    QGraphicsItem *elipse;
     QGraphicsItem *triangle;
     QTimer *timer;
 

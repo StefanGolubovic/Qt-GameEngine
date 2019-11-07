@@ -11,6 +11,7 @@ MainWindow::MainWindow(QWidget *parent)
     ui->setupUi(this);
     ui->groupBoxSquare->hide();
     ui->groupBoxTriangle->hide();
+    ui->groupBoxElipse->hide();
     ui->mainScene->installEventFilter(this);
 
     scene = new QGraphicsScene(ui->mainScene);
@@ -43,14 +44,22 @@ void MainWindow::on_treeWidget_itemClicked(QTreeWidgetItem *item, int column)
         gbLineEdits->append(ui->lineY);
         gbLineEdits->append(ui->lineScaleX);
         gbLineEdits->append(ui->lineScaleY);
-        QSpinBox *spinAngle = ui->spinBoxAngle;
-        square = new Square(ui->groupBoxSquare, ui->groupBoxTriangle,gbLineEdits, spinAngle);
+
+        square = new Square(ui->groupBoxSquare, ui->groupBoxTriangle, ui->groupBoxElipse,gbLineEdits, ui->spinBoxAngle);
         square->setFocus();
         scene->addItem(square);
     }
-    if(item->text(0) == "Circle"){
-        circle = new Circle();
-        scene->addItem(circle);
+    if(item->text(0) == "Elipse"){
+
+        QList<QLineEdit*> *gbLineEdits = new QList<QLineEdit*>;
+        gbLineEdits->append(ui->elipseX);
+        gbLineEdits->append(ui->elipseY);
+        gbLineEdits->append(ui->elipseScaleX);
+        gbLineEdits->append(ui->elipseScaleY);
+
+        elipse = new Elipse(ui->groupBoxElipse,ui->groupBoxTriangle, ui->groupBoxSquare, gbLineEdits, ui->elipseAngle);
+        elipse->setFocus();
+        scene->addItem(elipse);
     }
     if(item->text(0) == "Triangle"){
         QList<QLineEdit*> *gbLineEdits = new QList<QLineEdit*>;
@@ -63,7 +72,7 @@ void MainWindow::on_treeWidget_itemClicked(QTreeWidgetItem *item, int column)
         gbLineEdits->append(ui->figureX);
         gbLineEdits->append(ui->figureY);
 
-        triangle = new Triangle(ui->groupBoxTriangle, ui->groupBoxSquare, gbLineEdits, ui->spinBoxTriangle);
+        triangle = new Triangle(ui->groupBoxTriangle, ui->groupBoxSquare, ui->groupBoxElipse, gbLineEdits, ui->spinBoxTriangle);
         triangle->setFocus();
         scene->addItem(triangle);
     }

@@ -2,12 +2,13 @@
 #include <QDebug>
 #include <QMessageBox>
 
-Triangle::Triangle(QGroupBox *gBoxTriangle,QGroupBox *gBoxSquare, QList<QLineEdit*> *gbLineEdits, QSpinBox *spinBoxTriangle)
+Triangle::Triangle(QGroupBox *gBoxTriangle,QGroupBox *gBoxSquare, QGroupBox* gBoxElipse, QList<QLineEdit*> *gbLineEdits, QSpinBox *spinBoxTriangle)
 {
     pressed = false;
 
     this->gBoxTriangle = gBoxTriangle;
     this->gBoxSquare = gBoxSquare;
+    this->gBoxElipse = gBoxElipse;
     this->gbLineEdits = gbLineEdits;
     this->spinBoxTriangle = spinBoxTriangle;
     point1.rx() = 10;
@@ -16,8 +17,6 @@ Triangle::Triangle(QGroupBox *gBoxTriangle,QGroupBox *gBoxSquare, QList<QLineEdi
     point2.ry() = 100;
     point3.rx() = 100;
     point3.ry() = 10;
-
-//    polygon << point1 << point2 << point3;
 
     setFlag(ItemIsMovable);
     setFlag(ItemIsFocusable);
@@ -40,14 +39,12 @@ void Triangle::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, 
         painter->setBrush(Qt::green);
     }
 
-    qDebug() << this->pos();
-
     if (scene()->collidingItems(this).isEmpty()) {
 //        qDebug() << "No collision!";
     }
     else {
         //collision
-        qDebug() << "Collision!";
+//        qDebug() << "Collision!";
     }
 
     setTextGroupBox(gbLineEdits,point1, point2, point3, this->pos());
@@ -127,7 +124,6 @@ void Triangle::keyPressEvent(QKeyEvent *event)
 
 QPainterPath Triangle::shape() const
 {
-
     QPolygonF polygon;
     polygon << point1 << point2 << point3;
     QPainterPath path;
@@ -139,6 +135,7 @@ void Triangle::mousePressEvent(QGraphicsSceneMouseEvent *event)
 {
     pressed = true;
     gBoxSquare->hide();
+    gBoxElipse->hide();
     gBoxTriangle->show();
     update();
     QGraphicsItem::mousePressEvent(event);
