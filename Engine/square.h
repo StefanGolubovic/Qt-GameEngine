@@ -10,12 +10,13 @@
 class Square : public QGraphicsItem
 {
 public:
-    Square(QGroupBox* gbox, QList<QLineEdit*> *gbLineEdits, QSpinBox *spinAngle);
+    Square(QGroupBox* gbox, QGroupBox* gBoxTriangle, QList<QLineEdit*> *gbLineEdits, QSpinBox *spinAngle);
 
     QRectF boundingRect() const override;
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = nullptr) override;
     bool pressed;
-    QGroupBox* gBox;
+    QGroupBox* gBoxSquare;
+    QGroupBox* gBoxTriangle;
     QList<QLineEdit*> *gbLineEdits;
     QSpinBox *spinAngle;
     void setTextGroupBox(QList<QLineEdit*> *gbLineEdits, QSpinBox *spinAngle, QPointF location);

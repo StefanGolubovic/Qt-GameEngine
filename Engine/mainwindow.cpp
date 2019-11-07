@@ -9,7 +9,8 @@ MainWindow::MainWindow(QWidget *parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-    ui->groupBox->hide();
+    ui->groupBoxSquare->hide();
+    ui->groupBoxTriangle->hide();
     ui->mainScene->installEventFilter(this);
 
     scene = new QGraphicsScene(ui->mainScene);
@@ -43,7 +44,7 @@ void MainWindow::on_treeWidget_itemClicked(QTreeWidgetItem *item, int column)
         gbLineEdits->append(ui->lineScaleX);
         gbLineEdits->append(ui->lineScaleY);
         QSpinBox *spinAngle = ui->spinBoxAngle;
-        square = new Square(ui->groupBox,gbLineEdits, spinAngle);
+        square = new Square(ui->groupBoxSquare, ui->groupBoxTriangle,gbLineEdits, spinAngle);
         square->setFocus();
         scene->addItem(square);
     }
@@ -52,7 +53,18 @@ void MainWindow::on_treeWidget_itemClicked(QTreeWidgetItem *item, int column)
         scene->addItem(circle);
     }
     if(item->text(0) == "Triangle"){
-        triangle = new Triangle();
+        QList<QLineEdit*> *gbLineEdits = new QList<QLineEdit*>;
+        gbLineEdits->append(ui->pOneLineX);
+        gbLineEdits->append(ui->pOneLineY);
+        gbLineEdits->append(ui->pTwoLineX);
+        gbLineEdits->append(ui->pTwoLineY);
+        gbLineEdits->append(ui->pThreeLineX);
+        gbLineEdits->append(ui->pThreeLineY);
+        gbLineEdits->append(ui->figureX);
+        gbLineEdits->append(ui->figureY);
+
+        triangle = new Triangle(ui->groupBoxTriangle, ui->groupBoxSquare, gbLineEdits);
+        triangle->setFocus();
         scene->addItem(triangle);
     }
 

@@ -6,19 +6,16 @@
 #include <QMessageBox>
 #include <QTransform>
 
-Square::Square(QGroupBox* gbox, QList<QLineEdit*> *gbLineEdits, QSpinBox *spinAngle)
+Square::Square(QGroupBox* gbox, QGroupBox* gBoxTriangle, QList<QLineEdit*> *gbLineEdits, QSpinBox *spinAngle)
 {
     angle = 0;
-    speed = 5;
     pressed = false;
-    this->gBox = gbox;
+    this->gBoxSquare = gbox;
+    this->gBoxTriangle = gBoxTriangle;
     this->gbLineEdits = gbLineEdits;
     this->spinAngle = spinAngle;
     scaleX = 1;
     scaleY = 1;
-
-    int startX = 0;
-    int startY = 0;
 
     setFlag(ItemIsMovable);
     setFlag(ItemIsFocusable);
@@ -45,11 +42,11 @@ void Square::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QW
 
 
     if (scene()->collidingItems(this).isEmpty()) {
-//        qDebug() << "No collision!";
+        qDebug() << "No collision!";
     }
     else {
         //collision
-//        qDebug() << "Collision!";
+        qDebug() << "Collision!";
     }
 
     painter->fillRect(rec, brush);
@@ -117,7 +114,8 @@ void Square::advance(int phase)
 
 void Square::mousePressEvent(QGraphicsSceneMouseEvent *event)
 {
-    gBox->show();
+    gBoxTriangle->hide();
+    gBoxSquare->show();
     pressed = true;
     update();
     QGraphicsItem::mousePressEvent(event);
