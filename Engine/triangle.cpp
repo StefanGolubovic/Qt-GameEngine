@@ -147,3 +147,14 @@ void Triangle::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
     update();
     QGraphicsItem::mouseReleaseEvent(event);
 }
+//override
+int Triangle::type() const {return 3;}
+QPoint Triangle::getPoint1() const{
+    return point1;
+}
+QPoint Triangle::getPoint2() const{
+    return point2;
+}
+QPoint Triangle::getPoint3() const{
+    return point3;
+}

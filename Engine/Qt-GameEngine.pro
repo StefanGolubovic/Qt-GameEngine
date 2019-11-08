@@ -19,12 +19,14 @@ SOURCES += \
     elipse.cpp \
     main.cpp \
     mainwindow.cpp \
+    sceneloader.cpp \
     square.cpp \
     triangle.cpp
 
 HEADERS += \
     elipse.h \
     mainwindow.h \
+    sceneloader.h \
     square.h \
     triangle.h
 

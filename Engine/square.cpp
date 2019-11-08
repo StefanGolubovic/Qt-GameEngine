@@ -129,3 +129,18 @@ void Square::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
     update();
     QGraphicsItem::mouseReleaseEvent(event);
 }
+//override
+int Square::type() const {return 2;}
+
+qreal Square::getAngle() const{
+    return angle;
+}
+qreal Square::getScaleX() const{
+    return scaleX;
+}
+qreal Square::getScaleY() const{
+    return scaleY;
+}
+qreal Square::getSpeed() const{
+    return speed;
+}

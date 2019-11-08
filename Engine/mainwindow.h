@@ -9,7 +9,10 @@
 #include <QtGui>
 #include <QTimer>
 #include <QVBoxLayout>
-
+#include <QString>
+#include <QFileDialog>
+#include <iostream>
+#include <QTranslator>
 #include "square.h"
 #include "elipse.h"
 #include "triangle.h"
@@ -25,9 +28,14 @@ class MainWindow : public QMainWindow
 public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
+    Ui::MainWindow* getUi () const;
 
 private slots:
     void on_treeWidget_itemClicked(QTreeWidgetItem *item, int column);
+
+    void on_actionSave_triggered();
+
+    void on_actionLoad_triggered();
 
 private:
     Ui::MainWindow *ui;

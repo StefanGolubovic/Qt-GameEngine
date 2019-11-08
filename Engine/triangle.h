@@ -26,6 +26,10 @@ public:
     QGroupBox *gBoxElipse;
     QList<QLineEdit*> *gbLineEdits;
     QSpinBox *spinBoxTriangle;
+    int type() const override;//dodali
+    QPoint getPoint1() const;
+    QPoint getPoint2() const;
+    QPoint getPoint3() const;
 
 
 protected:

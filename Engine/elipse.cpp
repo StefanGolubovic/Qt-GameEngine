@@ -124,4 +124,29 @@ void Elipse::keyPressEvent(QKeyEvent *event)
     lineScaleX->clear();
     lineScaleY->clear();
 }
-
+//override type
+int Elipse::type() const {return 1;}
+int Elipse::getAngle() const{
+    return angle;
+}
+qreal Elipse::getScaleX() const{
+    return scaleX;
+}
+qreal Elipse::getScaleY() const{
+    return scaleY;
+}
+QPointF Elipse::getLocation() const{
+    return location;
+}
+void Elipse::setScaleX(qreal scX){
+    scaleX = scX;
+}
+void Elipse::setScaleY(qreal scY){
+    scaleY = scY;
+}
+void Elipse::setLocation(QPointF loc){
+    location = loc;
+}
+void Elipse::setAngle(int ang){
+    angle = ang;
+}

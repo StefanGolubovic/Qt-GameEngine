@@ -21,6 +21,11 @@ public:
     QList<QLineEdit*> *gbLineEdits;
     QSpinBox *spinAngle;
     void setTextGroupBox(QList<QLineEdit*> *gbLineEdits, QSpinBox *spinAngle, QPointF location);
+    int type() const override;//dodali
+    qreal getScaleX() const;
+    qreal getScaleY() const;
+    qreal getSpeed() const;
+    qreal getAngle() const;
 
 protected:
     qreal scaleX, scaleY;

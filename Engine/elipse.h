@@ -31,6 +31,16 @@ public:
     void mousePressEvent(QGraphicsSceneMouseEvent *event) override;
     void mouseReleaseEvent(QGraphicsSceneMouseEvent *event) override;
     void keyPressEvent(QKeyEvent *event) override;
+    int type() const override;//dodali
+    int getAngle() const;
+    QSpinBox* getSpinAngle() const;
+    qreal getScaleX() const;
+    qreal getScaleY() const;
+    QPointF getLocation() const;
+    void setScaleX(qreal scX);
+    void setScaleY(qreal scY);
+    void setLocation(QPointF loc);
+    void setAngle(int ang);
 
 private:
     QSpinBox *spinAngle;
