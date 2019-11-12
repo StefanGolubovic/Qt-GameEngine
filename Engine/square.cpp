@@ -6,17 +6,17 @@
 #include <QMessageBox>
 #include <QTransform>
 
-Square::Square(QGroupBox* gbox, QGroupBox* gBoxTriangle, QGroupBox* gBoxElipse, QList<QLineEdit*> *gbLineEdits, QSpinBox *spinAngle)
+Square::Square(GlobalInfo *globalInfo, QString randomID)
 {
     angle = 0;
     pressed = false;
-    this->gBoxSquare = gbox;
-    this->gBoxElipse =  gBoxElipse;
-    this->gBoxTriangle = gBoxTriangle;
-    this->gbLineEdits = gbLineEdits;
-    this->spinAngle = spinAngle;
+    this->globalInfo = globalInfo;
+    this->gBoxes = globalInfo->gBoxes;
+    this->gbLineEdits = globalInfo->gbLineEditsSquare;
+    this->squareAngle = globalInfo->squareAngle;
     scaleX = 1;
     scaleY = 1;
+    this->randomID = randomID;
 
     setFlag(ItemIsMovable);
     setFlag(ItemIsFocusable);
@@ -39,7 +39,7 @@ void Square::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QW
     }
     QPointF location = this->pos();
 
-    setTextGroupBox(gbLineEdits, spinAngle, this->pos());
+    setTextGroupBox(gbLineEdits, squareAngle, this->pos());
 
 
     if (scene()->collidingItems(this).isEmpty()) {
@@ -83,7 +83,7 @@ void Square::keyPressEvent(QKeyEvent *event)
     scaleX = qreal(lineScaleX->text().toFloat());
     scaleY = qreal(lineScaleY->text().toFloat());
 
-    QSpinBox *spinBox = spinAngle;
+    QSpinBox *spinBox = squareAngle;
 
     this->setPos(qreal(lineX->text().toInt()), qreal(lineY->text().toInt()));
     this->update();
@@ -115,9 +115,17 @@ void Square::advance(int phase)
 
 void Square::mousePressEvent(QGraphicsSceneMouseEvent *event)
 {
-    gBoxTriangle->hide();
-    gBoxElipse->hide();
-    gBoxSquare->show();
+
+    for(QGroupBox* box : *this->gBoxes) {
+        if(box->title() != "Square Info") {
+            box->hide();
+        }
+        else{
+            box->show();
+        }
+    }
+
+    globalInfo->currentID = this->randomID;
     pressed = true;
     update();
     QGraphicsItem::mousePressEvent(event);

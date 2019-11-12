@@ -2,15 +2,16 @@
 #include <QDebug>
 #include <QMessageBox>
 
-Triangle::Triangle(QGroupBox *gBoxTriangle,QGroupBox *gBoxSquare, QGroupBox* gBoxElipse, QList<QLineEdit*> *gbLineEdits, QSpinBox *spinBoxTriangle)
+Triangle::Triangle(GlobalInfo *globalInfo, QString randomID)
 {
     pressed = false;
 
-    this->gBoxTriangle = gBoxTriangle;
-    this->gBoxSquare = gBoxSquare;
-    this->gBoxElipse = gBoxElipse;
-    this->gbLineEdits = gbLineEdits;
-    this->spinBoxTriangle = spinBoxTriangle;
+    this->globalInfo = globalInfo;
+    this->gBoxes = globalInfo->gBoxes;
+    this->gbLineEditsTriangle = globalInfo->gbLineEditsTriangle;
+    this->triangleAngle = globalInfo->triangleAngle;
+    this->randomID = randomID;
+
     point1.rx() = 10;
     point1.ry() = 10;
     point2.rx() = 10;
@@ -47,7 +48,7 @@ void Triangle::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, 
 //        qDebug() << "Collision!";
     }
 
-    setTextGroupBox(gbLineEdits,point1, point2, point3, this->pos());
+    setTextGroupBox(gbLineEditsTriangle,point1, point2, point3, this->pos());
 
     painter->drawPolygon(polygon);
 }
@@ -76,15 +77,15 @@ void Triangle::setTextGroupBox(QList<QLineEdit*> *gbLineEdits, QPointF p1, QPoin
 
 void Triangle::keyPressEvent(QKeyEvent *event)
 {
-    QLineEdit *p1lineX = gbLineEdits->at(0);
-    QLineEdit *p1lineY = gbLineEdits->at(1);
-    QLineEdit *p2lineX = gbLineEdits->at(2);
-    QLineEdit *p2lineY = gbLineEdits->at(3);
-    QLineEdit *p3lineX = gbLineEdits->at(4);
-    QLineEdit *p3lineY = gbLineEdits->at(5);
+    QLineEdit *p1lineX = gbLineEditsTriangle->at(0);
+    QLineEdit *p1lineY = gbLineEditsTriangle->at(1);
+    QLineEdit *p2lineX = gbLineEditsTriangle->at(2);
+    QLineEdit *p2lineY = gbLineEditsTriangle->at(3);
+    QLineEdit *p3lineX = gbLineEditsTriangle->at(4);
+    QLineEdit *p3lineY = gbLineEditsTriangle->at(5);
 
-    QLineEdit *figureX = gbLineEdits->at(6);
-    QLineEdit *figureY = gbLineEdits->at(7);
+    QLineEdit *figureX = gbLineEditsTriangle->at(6);
+    QLineEdit *figureY = gbLineEditsTriangle->at(7);
 
     if (p1lineX->text() == "" || p1lineY->text() == "" || p2lineX->text() == ""
             || p2lineY->text() == "" || p3lineX->text() == "" || p3lineY->text() == ""){
@@ -107,7 +108,7 @@ void Triangle::keyPressEvent(QKeyEvent *event)
 
     QTransform t;
     t.translate(qreal(figureX->text().toInt()), qreal(figureY->text().toInt()));
-    t.rotate(qreal(spinBoxTriangle->text().toFloat()));
+    t.rotate(qreal(triangleAngle->text().toFloat()));
     t.translate(-qreal(figureX->text().toInt()), -qreal(figureY->text().toInt()));
     this->setTransform(t);
     t.reset();
@@ -133,10 +134,18 @@ QPainterPath Triangle::shape() const
 
 void Triangle::mousePressEvent(QGraphicsSceneMouseEvent *event)
 {
+    for(QGroupBox* box : *this->gBoxes) {
+
+        if(box->title() != "Triangle Info") {
+            box->hide();
+        }
+        else{
+            box->show();
+        }
+    }
+
     pressed = true;
-    gBoxSquare->hide();
-    gBoxElipse->hide();
-    gBoxTriangle->show();
+    globalInfo->currentID = this->randomID;
     update();
     QGraphicsItem::mousePressEvent(event);
 }

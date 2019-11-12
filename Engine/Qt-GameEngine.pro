@@ -17,6 +17,7 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
     elipse.cpp \
+    globalinfo.cpp \
     main.cpp \
     mainwindow.cpp \
     sceneloader.cpp \
@@ -25,6 +26,7 @@ SOURCES += \
 
 HEADERS += \
     elipse.h \
+    globalinfo.h \
     mainwindow.h \
     sceneloader.h \
     square.h \

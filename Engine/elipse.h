@@ -1,6 +1,7 @@
 #ifndef ELIPSE_H
 #define ELIPSE_H
 
+#include "globalinfo.h"
 #include <QGraphicsItem>
 #include <QPainter>
 #include <QtMath>
@@ -9,13 +10,14 @@
 #include <QLineEdit>
 #include <QSpinBox>
 #include <QMessageBox>
+#include <QPushButton>
 
 class Elipse : public QGraphicsItem
 {
 
 //ui->groupBoxElipse,ui->groupBoxTriangle, ui->groupBoxSquare, gbLineEdits, ui->elipseAngle
 public:
-    Elipse(QGroupBox* gBoxElipse, QGroupBox* gBoxTriangle, QGroupBox* gBoxSquare, QList<QLineEdit *> *gbLineEdits, QSpinBox *spinAngle);
+    Elipse(GlobalInfo *globalInfo, QString randomID);
 
     QRectF boundingRect() const override;
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = nullptr) override;
@@ -25,7 +27,10 @@ public:
     QGroupBox* gBoxElipse;
     QGroupBox* gBoxTriangle;
     QGroupBox* gBoxSquare;
-    QList<QLineEdit*> *gbLineEdits;
+    QList<QLineEdit*> *gbLineEditsElipse;
+    QString randomID;
+    GlobalInfo *globalInfo;
+    QList<QGroupBox*> *gBoxes;
 
 
     void mousePressEvent(QGraphicsSceneMouseEvent *event) override;

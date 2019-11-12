@@ -12,10 +12,45 @@ MainWindow::MainWindow(QWidget *parent)
     ui->groupBoxElipse->hide();
     ui->mainScene->installEventFilter(this);
 
+    //Initializing Square info for globaInfo object
+    QList<QLineEdit*> *gbLineEditsSquare = new QList<QLineEdit*>;
+    gbLineEditsSquare->append(ui->squareX);
+    gbLineEditsSquare->append(ui->squareY);
+    gbLineEditsSquare->append(ui->squareScaleX);
+    gbLineEditsSquare->append(ui->squareScaleY);
+
+    //Initializing Elipse info for globaInfo object
+    QList<QLineEdit*> *gbLineEditsElipse = new QList<QLineEdit*>;
+    gbLineEditsElipse->append(ui->elipseX);
+    gbLineEditsElipse->append(ui->elipseY);
+    gbLineEditsElipse->append(ui->elipseScaleX);
+    gbLineEditsElipse->append(ui->elipseScaleY);
+
+    //Initializing Triangle info for globaInfo object
+    QList<QLineEdit*> *gbLineEditsTriangle = new QList<QLineEdit*>;
+    gbLineEditsTriangle->append(ui->pOneLineX);
+    gbLineEditsTriangle->append(ui->pOneLineY);
+    gbLineEditsTriangle->append(ui->pTwoLineX);
+    gbLineEditsTriangle->append(ui->pTwoLineY);
+    gbLineEditsTriangle->append(ui->pThreeLineX);
+    gbLineEditsTriangle->append(ui->pThreeLineY);
+    gbLineEditsTriangle->append(ui->figureX);
+    gbLineEditsTriangle->append(ui->figureY);
+
+    //Initializing GroupBox info for globaInfo object
+    QList<QGroupBox*> *gBoxes = new QList<QGroupBox*>;
+    gBoxes->append(ui->groupBoxSquare);
+    gBoxes->append(ui->groupBoxElipse);
+    gBoxes->append(ui->groupBoxTriangle);
+
+    //Initializing QSpinAngles info for globaInfo object
+
+
+    this->globalInfo = new GlobalInfo(gbLineEditsSquare, gbLineEditsElipse, gbLineEditsTriangle,
+                                      gBoxes, ui->squareAngle,ui->elipseAngle, ui->triangleAngle);
+
     scene = new QGraphicsScene(ui->mainScene);
     QGraphicsView *view = new QGraphicsView(scene);
-
-//    view->show();
 
     view->setFixedSize(800, 600);
 
@@ -37,40 +72,77 @@ void MainWindow::on_treeWidget_itemClicked(QTreeWidgetItem *item, int column)
 {
     if(item->text(0) == "Square"){
 
-        QList<QLineEdit*> *gbLineEdits = new QList<QLineEdit*>;
-        gbLineEdits->append(ui->lineX);
-        gbLineEdits->append(ui->lineY);
-        gbLineEdits->append(ui->lineScaleX);
-        gbLineEdits->append(ui->lineScaleY);
+        QString randomID = gen_random();
+        bool unique = true;
+        while(true) {
+            for(QGraphicsItem* item :scene->items()){
+                if(item->type() == 1){
+                    Elipse* eObj = qgraphicsitem_cast<Elipse*>(item);
+                    if(eObj->randomID == randomID){
+                        unique = false;
+                    }
+                }
+            }
+            if(unique){
+                break;
+            }
+            else{
+                randomID = gen_random();
+            }
+        }
 
-        square = new Square(ui->groupBoxSquare, ui->groupBoxTriangle, ui->groupBoxElipse,gbLineEdits, ui->spinBoxAngle);
+        square = new Square(globalInfo, randomID);
         square->setFocus();
         scene->addItem(square);
     }
     if(item->text(0) == "Elipse"){
 
-        QList<QLineEdit*> *gbLineEdits = new QList<QLineEdit*>;
-        gbLineEdits->append(ui->elipseX);
-        gbLineEdits->append(ui->elipseY);
-        gbLineEdits->append(ui->elipseScaleX);
-        gbLineEdits->append(ui->elipseScaleY);
+        QString randomID = gen_random();
+        bool unique = true;
+        while(true) {
+            for(QGraphicsItem* item :scene->items()){
+                if(item->type() == 1){
+                    Elipse* eObj = qgraphicsitem_cast<Elipse*>(item);
+                    if(eObj->randomID == randomID){
+                        unique = false;
+                    }
+                }
+            }
+            if(unique){
+                break;
+            }
+            else{
+                randomID = gen_random();
+            }
+        }
 
-        elipse = new Elipse(ui->groupBoxElipse,ui->groupBoxTriangle, ui->groupBoxSquare, gbLineEdits, ui->elipseAngle);
+        elipse = new Elipse(globalInfo, randomID);
+
         elipse->setFocus();
         scene->addItem(elipse);
     }
     if(item->text(0) == "Triangle"){
-        QList<QLineEdit*> *gbLineEdits = new QList<QLineEdit*>;
-        gbLineEdits->append(ui->pOneLineX);
-        gbLineEdits->append(ui->pOneLineY);
-        gbLineEdits->append(ui->pTwoLineX);
-        gbLineEdits->append(ui->pTwoLineY);
-        gbLineEdits->append(ui->pThreeLineX);
-        gbLineEdits->append(ui->pThreeLineY);
-        gbLineEdits->append(ui->figureX);
-        gbLineEdits->append(ui->figureY);
 
-        triangle = new Triangle(ui->groupBoxTriangle, ui->groupBoxSquare, ui->groupBoxElipse, gbLineEdits, ui->spinBoxTriangle);
+        QString randomID = gen_random();
+        bool unique = true;
+        while(true) {
+            for(QGraphicsItem* item :scene->items()){
+                if(item->type() == 1){
+                    Elipse* eObj = qgraphicsitem_cast<Elipse*>(item);
+                    if(eObj->randomID == randomID){
+                        unique = false;
+                    }
+                }
+            }
+            if(unique){
+                break;
+            }
+            else{
+                randomID = gen_random();
+            }
+        }
+
+        triangle = new Triangle(globalInfo, randomID);
         triangle->setFocus();
         scene->addItem(triangle);
     }
@@ -104,7 +176,7 @@ void MainWindow::on_actionLoad_triggered()
            gbLineEdits->append(ui->elipseScaleX);
            gbLineEdits->append(ui->elipseScaleY);
 
-           elipse = new Elipse(ui->groupBoxElipse,ui->groupBoxTriangle, ui->groupBoxSquare, gbLineEdits, ui->elipseAngle);
+           elipse = new Elipse(globalInfo,it.toObject()["randomID"].toString());
            elipse->setFocus();
            elipse->setX(it.toObject()["locationX"].toDouble());
            elipse->setY(it.toObject()["locationY"].toDouble());
@@ -112,12 +184,12 @@ void MainWindow::on_actionLoad_triggered()
 
        }else if(it.toObject()["name"].toString().compare("Square")==0){
            QList<QLineEdit*> *gbLineEdits = new QList<QLineEdit*>;
-           gbLineEdits->append(ui->lineX);
-           gbLineEdits->append(ui->lineY);
-           gbLineEdits->append(ui->lineScaleX);
-           gbLineEdits->append(ui->lineScaleY);
+           gbLineEdits->append(ui->squareX);
+           gbLineEdits->append(ui->squareY);
+           gbLineEdits->append(ui->squareScaleX);
+           gbLineEdits->append(ui->squareScaleY);
 
-           square = new Square(ui->groupBoxSquare, ui->groupBoxTriangle, ui->groupBoxElipse,gbLineEdits, ui->spinBoxAngle);
+           square = new Square(globalInfo, it.toObject()["randomID"].toString());
            square->setFocus();
            square->setX(it.toObject()["locationX"].toDouble());
            square->setY(it.toObject()["locationY"].toDouble());
@@ -133,8 +205,7 @@ void MainWindow::on_actionLoad_triggered()
            gbLineEdits->append(ui->pThreeLineY);
            gbLineEdits->append(ui->figureX);
            gbLineEdits->append(ui->figureY);
-
-           triangle = new Triangle(ui->groupBoxTriangle, ui->groupBoxSquare, ui->groupBoxElipse, gbLineEdits, ui->spinBoxTriangle);
+           triangle = new Triangle(globalInfo, it.toObject()["randomID"].toString());
            triangle->setFocus();
            triangle->setX(it.toObject()["locationX"].toDouble());
            triangle->setY(it.toObject()["locationY"].toDouble());
@@ -146,4 +217,34 @@ void MainWindow::on_actionLoad_triggered()
 }
 Ui::MainWindow* MainWindow::getUi () const{
     return ui;
+}
+
+QString MainWindow::gen_random() {
+    QString s = "";
+    static const char alphanum[] =
+        "0123456789"
+        "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+        "abcdefghijklmnopqrstuvwxyz";
+
+    int size = 12;
+    for (int i = 0; i < size; ++i) {
+        s[i] = alphanum[rand() % (sizeof(alphanum) - 1)];
+    }
+
+    return s;
+}
+
+void MainWindow::on_elipseButton_clicked()
+{
+    qDebug() << globalInfo->currentID;
+}
+
+void MainWindow::on_squareButton_clicked()
+{
+    qDebug() << globalInfo->currentID;
+}
+
+void MainWindow::on_triangleButton_clicked()
+{
+    qDebug() << globalInfo->currentID;
 }

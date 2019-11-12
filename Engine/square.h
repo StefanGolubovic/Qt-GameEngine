@@ -1,5 +1,6 @@
 #ifndef SQUARE_H
 #define SQUARE_H
+#include "globalinfo.h"
 #include <QGraphicsItem>
 #include <QPainter>
 #include <QGraphicsScene>
@@ -10,16 +11,17 @@
 class Square : public QGraphicsItem
 {
 public:
-    Square(QGroupBox* gbox, QGroupBox* gBoxTriangle, QGroupBox* gBoxElipse, QList<QLineEdit*> *gbLineEdits, QSpinBox *spinAngle);
+    Square(GlobalInfo *globalInfo, QString randomID);
 
     QRectF boundingRect() const override;
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = nullptr) override;
     bool pressed;
-    QGroupBox* gBoxSquare;
-    QGroupBox* gBoxTriangle;
-    QGroupBox* gBoxElipse;
     QList<QLineEdit*> *gbLineEdits;
-    QSpinBox *spinAngle;
+    QSpinBox *squareAngle;
+    QString randomID;
+    GlobalInfo *globalInfo;
+    QList<QGroupBox*> *gBoxes;
+
     void setTextGroupBox(QList<QLineEdit*> *gbLineEdits, QSpinBox *spinAngle, QPointF location);
     int type() const override;//dodali
     qreal getScaleX() const;
@@ -27,7 +29,7 @@ public:
     qreal getSpeed() const;
     qreal getAngle() const;
 
-protected:
+private:
     qreal scaleX, scaleY;
     qreal angle;
     qreal speed;

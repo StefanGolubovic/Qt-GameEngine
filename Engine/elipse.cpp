@@ -1,13 +1,14 @@
 #include "elipse.h"
+#include "mainwindow.h"
 #include <QDebug>
 
-Elipse::Elipse(QGroupBox* gBoxElipse, QGroupBox* gBoxTriangle, QGroupBox* gBoxSquare, QList<QLineEdit *> *gbLineEdits, QSpinBox *spinAngle)
+Elipse::Elipse(GlobalInfo *globalInfo, QString randomID)
 {
-    this->gBoxElipse = gBoxElipse;
-    this->gBoxTriangle = gBoxTriangle;
-    this->gBoxSquare = gBoxSquare;
-    this->gbLineEdits = gbLineEdits;
-    this->spinAngle = spinAngle;
+    this->gBoxes = globalInfo->gBoxes;
+    this->globalInfo = globalInfo;
+    this->gbLineEditsElipse = globalInfo->gbLineEditsElipse;
+    this->spinAngle = globalInfo->elipseAngle;
+    this->randomID = randomID;
     scaleX = 1;
     scaleY = 1;
     angle = 0;
@@ -34,17 +35,15 @@ void Elipse::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QW
     }
 
     if (scene()->collidingItems(this).isEmpty()) {
-        qDebug() << "No collision!";
+//        qDebug() << "No collision!";
     }
     else {
         //collision
-        qDebug() << "Collision!";
+//        qDebug() << "Collision!";
     }
 
     location = this->pos();
-    setTextGroupBox(gbLineEdits, location);
-
-
+    setTextGroupBox(gbLineEditsElipse, location);
 
     painter->setBrush(brush);
     painter->drawEllipse(rec);
@@ -71,9 +70,17 @@ void Elipse::setTextGroupBox(QList<QLineEdit *> *gbLineEdits, QPointF location)
 
 void Elipse::mousePressEvent(QGraphicsSceneMouseEvent *event)
 {
-    gBoxTriangle->hide();
-    gBoxSquare->hide();
-    gBoxElipse->show();
+    for(QGroupBox* box : *this->gBoxes) {
+        if(box->title() != "Elipse Info") {
+            box->hide();
+        }
+        else{
+            box->show();
+        }
+    }
+
+    globalInfo->currentID = this->randomID;
+
     pressed = true;
     update();
     QGraphicsItem::mousePressEvent(event);
@@ -89,10 +96,10 @@ void Elipse::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
 void Elipse::keyPressEvent(QKeyEvent *event)
 {
     qDebug() << "Key is pressed";
-    QLineEdit *lineX = gbLineEdits->at(0);
-    QLineEdit *lineY = gbLineEdits->at(1);
-    QLineEdit *lineScaleX = gbLineEdits->at(2);
-    QLineEdit *lineScaleY = gbLineEdits->at(3);
+    QLineEdit *lineX = gbLineEditsElipse->at(0);
+    QLineEdit *lineY = gbLineEditsElipse->at(1);
+    QLineEdit *lineScaleX = gbLineEditsElipse->at(2);
+    QLineEdit *lineScaleY = gbLineEditsElipse->at(3);
     if (lineX->text() == "" || lineY->text() == "" || lineScaleX->text() == "" || lineScaleY->text() == ""){
         QMessageBox msgBox;
         msgBox.setWindowTitle("Warning");
@@ -109,7 +116,7 @@ void Elipse::keyPressEvent(QKeyEvent *event)
     this->update();
     QPointF location = this->pos();
 
-    qDebug() << (location);
+//    qDebug() << (location);
     QTransform t;
     t.translate(location.rx(), location.ry());
     t.rotate(qreal(angle));

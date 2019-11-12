@@ -1,6 +1,7 @@
 #ifndef TRIANGLE_H
 #define TRIANGLE_H
 
+#include "globalinfo.h"
 #include <QGraphicsItem>
 #include <QPainter>
 #include <QGraphicsScene>
@@ -13,7 +14,7 @@
 class Triangle : public QGraphicsItem
 {
 public:
-    Triangle(QGroupBox *gBoxTriangle,QGroupBox *gBoxSquare, QGroupBox* gBoxElipse, QList<QLineEdit*> *gbLineEdits, QSpinBox *spinBoxTriangle);
+    Triangle(GlobalInfo *globalInfo, QString randomID);
 
     QRectF boundingRect() const override;
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = nullptr) override;
@@ -21,18 +22,22 @@ public:
 
     void setTextGroupBox(QList<QLineEdit*> *gbLineEdits, QPointF p1, QPointF p2, QPointF p3, QPointF location);
 
-    QGroupBox *gBoxTriangle;
-    QGroupBox *gBoxSquare;
-    QGroupBox *gBoxElipse;
-    QList<QLineEdit*> *gbLineEdits;
-    QSpinBox *spinBoxTriangle;
+    QList<QLineEdit*> *gbLineEditsTriangle;
+    QSpinBox *triangleAngle;
+
     int type() const override;//dodali
     QPoint getPoint1() const;
     QPoint getPoint2() const;
     QPoint getPoint3() const;
+    QString randomID;
+    GlobalInfo *globalInfo;
+    QList<QGroupBox*> *gBoxes;
 
 
-protected:
+private:
+    QGroupBox *gBoxTriangle;
+    QGroupBox *gBoxSquare;
+    QGroupBox *gBoxElipse;
     void mousePressEvent(QGraphicsSceneMouseEvent *event) override;
     void mouseReleaseEvent(QGraphicsSceneMouseEvent *event) override;
     void keyPressEvent(QKeyEvent *event) override;

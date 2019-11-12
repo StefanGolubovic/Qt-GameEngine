@@ -31,6 +31,7 @@ bool SceneLoader::sceneSave(QGraphicsScene* scene){
            objectToJson["scaleY"] = eObj->getScaleY();
            objectToJson["locationX"] = eObj->getLocation().toPoint().rx();
            objectToJson["locationY"] = eObj->getLocation().toPoint().ry();
+           objectToJson["randomID"] = eObj->randomID;
 
         }else if(item->type() == 2){
             Square* eObj = qgraphicsitem_cast<Square*>(item);
