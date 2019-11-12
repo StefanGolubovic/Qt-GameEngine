@@ -213,7 +213,9 @@ void MainWindow::on_elipseButton_clicked()
     for(QGraphicsItem* gi : ui->mainScene->items()) {
         if(gi->type() == 1) {
             Elipse* eObj = qgraphicsitem_cast<Elipse*>(gi);
-            eObj->saveChanges();
+            if(eObj->randomID == globalInfo->currentID){
+                eObj->saveChanges();
+            }
         }
     }
 }
@@ -225,7 +227,9 @@ void MainWindow::on_squareButton_clicked()
     for(QGraphicsItem* gi : ui->mainScene->items()) {
         if(gi->type() == 2) {
             Square* eObj = qgraphicsitem_cast<Square*>(gi);
-            eObj->saveChanges();
+            if(eObj->randomID == globalInfo->currentID){
+                eObj->saveChanges();
+            }
         }
     }
 }
@@ -236,7 +240,9 @@ void MainWindow::on_triangleButton_clicked()
     for(QGraphicsItem* gi : ui->mainScene->items()) {
         if(gi->type() == 3) {
             Triangle* eObj = qgraphicsitem_cast<Triangle*>(gi);
-            eObj->saveChanges();
+            if(eObj->randomID == globalInfo->currentID){
+                eObj->saveChanges();
+            }
         }
     }
 }
