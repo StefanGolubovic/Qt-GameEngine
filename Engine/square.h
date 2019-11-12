@@ -29,6 +29,8 @@ public:
     qreal getSpeed() const;
     qreal getAngle() const;
 
+    void saveChanges();
+
 private:
     qreal scaleX, scaleY;
     qreal angle;
@@ -36,7 +38,6 @@ private:
     void advance(int phase) override;
     void mousePressEvent(QGraphicsSceneMouseEvent *event) override;
     void mouseReleaseEvent(QGraphicsSceneMouseEvent *event) override;
-    void keyPressEvent(QKeyEvent *event) override;
 };
 
 #endif // SQUARE_H

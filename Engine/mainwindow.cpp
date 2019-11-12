@@ -72,24 +72,7 @@ void MainWindow::on_treeWidget_itemClicked(QTreeWidgetItem *item, int column)
 {
     if(item->text(0) == "Square"){
 
-        QString randomID = gen_random();
-        bool unique = true;
-        while(true) {
-            for(QGraphicsItem* item :scene->items()){
-                if(item->type() == 1){
-                    Elipse* eObj = qgraphicsitem_cast<Elipse*>(item);
-                    if(eObj->randomID == randomID){
-                        unique = false;
-                    }
-                }
-            }
-            if(unique){
-                break;
-            }
-            else{
-                randomID = gen_random();
-            }
-        }
+        QString randomID = generateRandomID();
 
         square = new Square(globalInfo, randomID);
         square->setFocus();
@@ -97,24 +80,7 @@ void MainWindow::on_treeWidget_itemClicked(QTreeWidgetItem *item, int column)
     }
     if(item->text(0) == "Elipse"){
 
-        QString randomID = gen_random();
-        bool unique = true;
-        while(true) {
-            for(QGraphicsItem* item :scene->items()){
-                if(item->type() == 1){
-                    Elipse* eObj = qgraphicsitem_cast<Elipse*>(item);
-                    if(eObj->randomID == randomID){
-                        unique = false;
-                    }
-                }
-            }
-            if(unique){
-                break;
-            }
-            else{
-                randomID = gen_random();
-            }
-        }
+        QString randomID = generateRandomID();
 
         elipse = new Elipse(globalInfo, randomID);
 
@@ -123,24 +89,7 @@ void MainWindow::on_treeWidget_itemClicked(QTreeWidgetItem *item, int column)
     }
     if(item->text(0) == "Triangle"){
 
-        QString randomID = gen_random();
-        bool unique = true;
-        while(true) {
-            for(QGraphicsItem* item :scene->items()){
-                if(item->type() == 1){
-                    Elipse* eObj = qgraphicsitem_cast<Elipse*>(item);
-                    if(eObj->randomID == randomID){
-                        unique = false;
-                    }
-                }
-            }
-            if(unique){
-                break;
-            }
-            else{
-                randomID = gen_random();
-            }
-        }
+        QString randomID = generateRandomID();
 
         triangle = new Triangle(globalInfo, randomID);
         triangle->setFocus();
@@ -234,17 +183,60 @@ QString MainWindow::gen_random() {
     return s;
 }
 
+QString MainWindow::generateRandomID()
+{
+    QString randomID = gen_random();
+    bool unique = true;
+    while(true) {
+        for(QGraphicsItem* item :scene->items()){
+            if(item->type() == 1){
+                Elipse* eObj = qgraphicsitem_cast<Elipse*>(item);
+                if(eObj->randomID == randomID){
+                    unique = false;
+                }
+            }
+        }
+        if(unique){
+            break;
+        }
+        else{
+            randomID = gen_random();
+        }
+    }
+
+    return randomID;
+}
+
 void MainWindow::on_elipseButton_clicked()
 {
-    qDebug() << globalInfo->currentID;
+//    qDebug() << globalInfo->currentID;
+    for(QGraphicsItem* gi : ui->mainScene->items()) {
+        if(gi->type() == 1) {
+            Elipse* eObj = qgraphicsitem_cast<Elipse*>(gi);
+            eObj->saveChanges();
+        }
+    }
 }
 
 void MainWindow::on_squareButton_clicked()
 {
-    qDebug() << globalInfo->currentID;
+//    qDebug() << globalInfo->currentID;
+
+    for(QGraphicsItem* gi : ui->mainScene->items()) {
+        if(gi->type() == 2) {
+            Square* eObj = qgraphicsitem_cast<Square*>(gi);
+            eObj->saveChanges();
+        }
+    }
 }
 
 void MainWindow::on_triangleButton_clicked()
 {
-    qDebug() << globalInfo->currentID;
+//    qDebug() << globalInfo->currentID;
+    for(QGraphicsItem* gi : ui->mainScene->items()) {
+        if(gi->type() == 3) {
+            Triangle* eObj = qgraphicsitem_cast<Triangle*>(gi);
+            eObj->saveChanges();
+        }
+    }
 }

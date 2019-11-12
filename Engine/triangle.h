@@ -33,6 +33,8 @@ public:
     GlobalInfo *globalInfo;
     QList<QGroupBox*> *gBoxes;
 
+    void saveChanges();
+
 
 private:
     QGroupBox *gBoxTriangle;
@@ -40,7 +42,6 @@ private:
     QGroupBox *gBoxElipse;
     void mousePressEvent(QGraphicsSceneMouseEvent *event) override;
     void mouseReleaseEvent(QGraphicsSceneMouseEvent *event) override;
-    void keyPressEvent(QKeyEvent *event) override;
     QPainterPath shape() const override;
 
     QList<QPoint> points;

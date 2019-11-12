@@ -68,34 +68,9 @@ void Elipse::setTextGroupBox(QList<QLineEdit *> *gbLineEdits, QPointF location)
     line->setPlaceholderText(QString::number(scaleY));
 }
 
-void Elipse::mousePressEvent(QGraphicsSceneMouseEvent *event)
+void Elipse::saveChanges()
 {
-    for(QGroupBox* box : *this->gBoxes) {
-        if(box->title() != "Elipse Info") {
-            box->hide();
-        }
-        else{
-            box->show();
-        }
-    }
-
-    globalInfo->currentID = this->randomID;
-
-    pressed = true;
-    update();
-    QGraphicsItem::mousePressEvent(event);
-}
-
-void Elipse::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
-{
-    pressed = false;
-    update();
-    QGraphicsItem::mouseReleaseEvent(event);
-}
-
-void Elipse::keyPressEvent(QKeyEvent *event)
-{
-    qDebug() << "Key is pressed";
+    qDebug() << randomID << " will make changes";
     QLineEdit *lineX = gbLineEditsElipse->at(0);
     QLineEdit *lineY = gbLineEditsElipse->at(1);
     QLineEdit *lineScaleX = gbLineEditsElipse->at(2);
@@ -131,6 +106,32 @@ void Elipse::keyPressEvent(QKeyEvent *event)
     lineScaleX->clear();
     lineScaleY->clear();
 }
+
+void Elipse::mousePressEvent(QGraphicsSceneMouseEvent *event)
+{
+    for(QGroupBox* box : *this->gBoxes) {
+        if(box->title() != "Elipse Info") {
+            box->hide();
+        }
+        else{
+            box->show();
+        }
+    }
+
+    globalInfo->currentID = this->randomID;
+
+    pressed = true;
+    update();
+    QGraphicsItem::mousePressEvent(event);
+}
+
+void Elipse::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
+{
+    pressed = false;
+    update();
+    QGraphicsItem::mouseReleaseEvent(event);
+}
+
 //override type
 int Elipse::type() const {return 1;}
 int Elipse::getAngle() const{

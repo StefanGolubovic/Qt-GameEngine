@@ -66,45 +66,6 @@ void Square::setTextGroupBox(QList<QLineEdit *> *gbLineEdits, QSpinBox *spinAngl
     line->setPlaceholderText(QString::number(scaleY));
 }
 
-void Square::keyPressEvent(QKeyEvent *event)
-{
-    qDebug() << "Key is pressed";
-    QLineEdit *lineX = gbLineEdits->at(0);
-    QLineEdit *lineY = gbLineEdits->at(1);
-    QLineEdit *lineScaleX = gbLineEdits->at(2);
-    QLineEdit *lineScaleY = gbLineEdits->at(3);
-    if (lineX->text() == "" || lineY->text() == "" || lineScaleX->text() == "" || lineScaleY->text() == ""){
-        QMessageBox msgBox;
-        msgBox.setWindowTitle("Warning");
-        msgBox.setText("Please fill all fields !");
-        msgBox.exec();
-        return;
-    }
-    scaleX = qreal(lineScaleX->text().toFloat());
-    scaleY = qreal(lineScaleY->text().toFloat());
-
-    QSpinBox *spinBox = squareAngle;
-
-    this->setPos(qreal(lineX->text().toInt()), qreal(lineY->text().toInt()));
-    this->update();
-    QPointF location = this->pos();
-
-    qDebug() << (location);
-    QTransform t;
-    t.translate(location.rx(), location.ry());
-    t.rotate(qreal(spinBox->text().toFloat()));
-    t.scale(scaleX, scaleY);
-    t.translate(-location.rx(), -location.ry());
-    this->setTransform(t);
-    t.reset();
-
-    lineX->clear();
-    lineY->clear();
-
-    lineScaleX->clear();
-    lineScaleY->clear();
-}
-
 
 void Square::advance(int phase)
 {
@@ -142,6 +103,44 @@ int Square::type() const {return 2;}
 
 qreal Square::getAngle() const{
     return angle;
+}
+
+void Square::saveChanges()
+{
+    QLineEdit *lineX = gbLineEdits->at(0);
+    QLineEdit *lineY = gbLineEdits->at(1);
+    QLineEdit *lineScaleX = gbLineEdits->at(2);
+    QLineEdit *lineScaleY = gbLineEdits->at(3);
+    if (lineX->text() == "" || lineY->text() == "" || lineScaleX->text() == "" || lineScaleY->text() == ""){
+        QMessageBox msgBox;
+        msgBox.setWindowTitle("Warning");
+        msgBox.setText("Please fill all fields !");
+        msgBox.exec();
+        return;
+    }
+    scaleX = qreal(lineScaleX->text().toFloat());
+    scaleY = qreal(lineScaleY->text().toFloat());
+
+    QSpinBox *spinBox = squareAngle;
+
+    this->setPos(qreal(lineX->text().toInt()), qreal(lineY->text().toInt()));
+    this->update();
+    QPointF location = this->pos();
+
+    qDebug() << (location);
+    QTransform t;
+    t.translate(location.rx(), location.ry());
+    t.rotate(qreal(spinBox->text().toFloat()));
+    t.scale(scaleX, scaleY);
+    t.translate(-location.rx(), -location.ry());
+    this->setTransform(t);
+    t.reset();
+
+    lineX->clear();
+    lineY->clear();
+
+    lineScaleX->clear();
+    lineScaleY->clear();
 }
 qreal Square::getScaleX() const{
     return scaleX;

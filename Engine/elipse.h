@@ -15,7 +15,6 @@
 class Elipse : public QGraphicsItem
 {
 
-//ui->groupBoxElipse,ui->groupBoxTriangle, ui->groupBoxSquare, gbLineEdits, ui->elipseAngle
 public:
     Elipse(GlobalInfo *globalInfo, QString randomID);
 
@@ -23,6 +22,8 @@ public:
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = nullptr) override;
     QPainterPath shape() const override;
     void setTextGroupBox(QList<QLineEdit*> *gbLineEdits, QPointF location);
+
+    void saveChanges();
 
     QGroupBox* gBoxElipse;
     QGroupBox* gBoxTriangle;
@@ -35,7 +36,6 @@ public:
 
     void mousePressEvent(QGraphicsSceneMouseEvent *event) override;
     void mouseReleaseEvent(QGraphicsSceneMouseEvent *event) override;
-    void keyPressEvent(QKeyEvent *event) override;
     int type() const override;//dodali
     int getAngle() const;
     QSpinBox* getSpinAngle() const;

@@ -75,7 +75,52 @@ void Triangle::setTextGroupBox(QList<QLineEdit*> *gbLineEdits, QPointF p1, QPoin
     line->setPlaceholderText(QString::number(location.ry()));
 }
 
-void Triangle::keyPressEvent(QKeyEvent *event)
+QPainterPath Triangle::shape() const
+{
+    QPolygonF polygon;
+    polygon << point1 << point2 << point3;
+    QPainterPath path;
+    path.addPolygon(polygon);
+    return path;
+}
+
+void Triangle::mousePressEvent(QGraphicsSceneMouseEvent *event)
+{
+    for(QGroupBox* box : *this->gBoxes) {
+
+        if(box->title() != "Triangle Info") {
+            box->hide();
+        }
+        else{
+            box->show();
+        }
+    }
+
+    pressed = true;
+    globalInfo->currentID = this->randomID;
+    update();
+    QGraphicsItem::mousePressEvent(event);
+}
+
+void Triangle::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
+{
+    pressed = false;
+    update();
+    QGraphicsItem::mouseReleaseEvent(event);
+}
+//override
+int Triangle::type() const {return 3;}
+QPoint Triangle::getPoint1() const{
+    return point1;
+}
+QPoint Triangle::getPoint2() const{
+    return point2;
+}
+QPoint Triangle::getPoint3() const{
+    return point3;
+}
+
+void Triangle::saveChanges()
 {
     QLineEdit *p1lineX = gbLineEditsTriangle->at(0);
     QLineEdit *p1lineY = gbLineEditsTriangle->at(1);
@@ -121,49 +166,4 @@ void Triangle::keyPressEvent(QKeyEvent *event)
     p3lineY->clear();
     figureX->clear();
     figureY->clear();
-}
-
-QPainterPath Triangle::shape() const
-{
-    QPolygonF polygon;
-    polygon << point1 << point2 << point3;
-    QPainterPath path;
-    path.addPolygon(polygon);
-    return path;
-}
-
-void Triangle::mousePressEvent(QGraphicsSceneMouseEvent *event)
-{
-    for(QGroupBox* box : *this->gBoxes) {
-
-        if(box->title() != "Triangle Info") {
-            box->hide();
-        }
-        else{
-            box->show();
-        }
-    }
-
-    pressed = true;
-    globalInfo->currentID = this->randomID;
-    update();
-    QGraphicsItem::mousePressEvent(event);
-}
-
-void Triangle::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
-{
-    pressed = false;
-    update();
-    QGraphicsItem::mouseReleaseEvent(event);
-}
-//override
-int Triangle::type() const {return 3;}
-QPoint Triangle::getPoint1() const{
-    return point1;
-}
-QPoint Triangle::getPoint2() const{
-    return point2;
-}
-QPoint Triangle::getPoint3() const{
-    return point3;
 }

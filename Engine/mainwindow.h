@@ -31,6 +31,7 @@ public:
     ~MainWindow();
     Ui::MainWindow* getUi () const;
     QString gen_random();
+    QString generateRandomID();
     QString currentID;
     GlobalInfo *globalInfo;
 
